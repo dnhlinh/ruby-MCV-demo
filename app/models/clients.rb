@@ -1,7 +1,7 @@
 class Client
-    @list = [{:firstname => "Linh", :lastname => "Do", :id => 1},
-             {:firstname => "Peter", :lastname => "Pan", :id => 2},
-             {:firstname => "Matt", :lastname => "Bera", :id => 3}] 
+    @list = [{:firstname => "Linh", :lastname => "Do", :project_id => 3, :id => 1},
+             {:firstname => "Peter", :lastname => "Pan", :project_id => 2,:id => 2},
+             {:firstname => "Matt", :lastname => "Bera", :project_id => 1,:id => 3}] 
 
     def self.list
         @list
