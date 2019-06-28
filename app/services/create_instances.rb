@@ -1,3 +1,5 @@
+require 'rest-client'
+
 module Services
   class CreateInstance
     attr_reader :project_id, :instance_data
@@ -19,7 +21,7 @@ module Services
     end
 
     def call_nodejs_api
-      :ok
+      RestClient.get 'http://localhost:9090/projects/' + @project_id
     end
   end
 end

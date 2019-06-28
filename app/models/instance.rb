@@ -1,4 +1,11 @@
 class Instance
+
+# project_id
+# (node)
+# project name
+# organization id & name
+# client id & lastname
+
   $list = []
 
   def self.list
