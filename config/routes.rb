@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   
   # PROJECTS
   #resources: projects
-  get '/projects/index', to: 'projects#index'
+  get '/projects', to: 'projects#index'
   get '/projects/:id', to: 'projects#show'
   post '/projects', to: 'projects#create'
   put '/projects/:id', to: 'projects#update'
