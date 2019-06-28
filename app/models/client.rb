@@ -15,6 +15,7 @@ class Client
 
   def self.save(client)
     $list.push(client)
+    client
   end
 
   def self.delete(idvalue)
