@@ -8,7 +8,9 @@ class ClientsController < ApplicationController
   end
 
   def create
-    render json: Client.save({firstname: "Lady", lastname: "Gaga", id: 4})
+    # render json: Client.save({firstname: "Lady", lastname: "Gaga", id: 4})
+    client = JSON.parse(request.body.read)
+    render json: Client.save(client)
   end
 
   def destroy
