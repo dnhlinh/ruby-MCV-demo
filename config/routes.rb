@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post '/organizations', to: 'organizations#create'
   put '/organizations/:id', to: 'organizations#update'
   delete '/organizations/:id', to: 'organizations#destroy'
-  
+
   # PROJECTS
   #resources: projects
   get '/projects', to: 'projects#index'
@@ -24,4 +24,7 @@ Rails.application.routes.draw do
   delete '/clients/:id', to: 'clients#destroy'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :instances, except: :create
+  post '/projects/:project_id/instances', to: 'instances#create'
 end
