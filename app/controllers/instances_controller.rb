@@ -17,6 +17,7 @@ class InstancesController < ApplicationController
     begin
       result = Services::CreateInstance.new.call(data)
       render json: result
+      # puts result
     rescue Exception => ex
       render json: { error: ex.message }, status: 422
     end
