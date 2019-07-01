@@ -22,31 +22,29 @@ module Services
     end
 
     def call_nodejs_api
-      $output = {}
-
       # RETURN CLIENT ID AND LASTNAME
       @getClients = RestClient.get 'http://localhost:9090/clients' # why doesn't this return anything?
       @clientsHash = JSON.parse(@getClients)
       @clientList = @clientsHash['clients']
       @ClientFound = @clientList.find { |x| x['project_id'] == @project_id}
-      $output.store("client_id", @ClientFound['id'])
-      $output.store("client_lastname", @ClientFound['lastname'])
-
+      
       #RETURN PROJECT ID AND NAME
       @getProject = RestClient.get 'http://localhost:9090/projects/' + @project_id
       @ProjectFound = JSON.parse(@getProject)
-      $output.store("project_id", @ProjectFound['id'])
-      $output.store("project_name", @ProjectFound['name'])
-
+      
       #RETURN ORGANIZATION ID AND NAME
       @organization_id = @jsonProject['organization_id'] 
       @getOrg = RestClient.get 'http://localhost:9090/organizations/' + @organization_id
       @OrganizationFound = JSON.parse(@getOrg)
-      $output.store("organization_id", @ProjectFound['id'])
-      $output.store("organization_name", @ProjectFound['name'])
       
-      $output
-
+      output = {
+              client_id:  @ClientFound['id'],
+              client_lastname: @ClientFound['lastname']
+              project_id: @ProjectFound['id'],
+              project_name: @ProjectFound['name'],
+              organization_id: @OrganizationFound['id'],
+              organization_name: @OrganizationFound['name'],
+              }
     end
   end
 end
