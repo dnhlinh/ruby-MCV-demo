@@ -22,24 +22,24 @@ module Services
     end
 
     def call_nodejs_api
-      # RETURN CLIENT ID AND LASTNAME
+      # RETURN CLIENT 
       @getClients = RestClient.get 'http://localhost:9090/clients' # why doesn't this return anything?
       @clientsHash = JSON.parse(@getClients)
       @clientList = @clientsHash['clients']
       @ClientFound = @clientList.find { |x| x['project_id'] == @project_id}
       
-      #RETURN PROJECT ID AND NAME
+      #RETURN PROJECT 
       @getProject = RestClient.get 'http://localhost:9090/projects/' + @project_id
       @ProjectFound = JSON.parse(@getProject)
       
-      #RETURN ORGANIZATION ID AND NAME
+      #RETURN ORGANIZATION 
       @organization_id = @jsonProject['organization_id'] 
       @getOrg = RestClient.get 'http://localhost:9090/organizations/' + @organization_id
       @OrganizationFound = JSON.parse(@getOrg)
       
       output = {
               client_id:  @ClientFound['id'],
-              client_lastname: @ClientFound['lastname']
+              client_lastname: @ClientFound['lastname'],
               project_id: @ProjectFound['id'],
               project_name: @ProjectFound['name'],
               organization_id: @OrganizationFound['id'],
