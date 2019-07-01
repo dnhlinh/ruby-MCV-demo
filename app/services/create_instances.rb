@@ -43,7 +43,7 @@ module Services
               project_id: @ProjectFound['id'],
               project_name: @ProjectFound['name'],
               organization_id: @OrganizationFound['id'],
-              organization_name: @OrganizationFound['name'],
+              organization_name: @OrganizationFound['name']
               }
     end
   end
