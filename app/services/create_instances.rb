@@ -42,8 +42,8 @@ module Services
       @organization_id = @jsonProject['organization_id'] 
       @getOrg = RestClient.get 'http://localhost:9090/organizations/' + @organization_id
       @OrganizationFound = JSON.parse(@getOrg)
-      $output.store("organization_id", @ProjectFound['id']})
-      $output.store("organization_name", @ProjectFound['name']})
+      $output.store("organization_id", @ProjectFound['id'])
+      $output.store("organization_name", @ProjectFound['name'])
       
       $output
 
