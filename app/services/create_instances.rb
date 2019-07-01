@@ -22,29 +22,29 @@ module Services
     end
 
     def call_nodejs_api
-      # RETURN CLIENT 
-      @getClients = RestClient.get 'http://localhost:9090/clients' # why doesn't this return anything?
-      @clientsHash = JSON.parse(@getClients)
-      @clientList = @clientsHash['clients']
-      @ClientFound = @clientList.find { |x| x['project_id'] == @project_id}
-      
-      #RETURN PROJECT 
-      @getProject = RestClient.get 'http://localhost:9090/projects/' + @project_id
-      @ProjectFound = JSON.parse(@getProject)
-      
-      #RETURN ORGANIZATION 
-      @organization_id = @jsonProject['organization_id'] 
-      @getOrg = RestClient.get 'http://localhost:9090/organizations/' + @organization_id
-      @OrganizationFound = JSON.parse(@getOrg)
-      
+      # RETURN CLIENT
+      @client_response = RestClient.get 'http://localhost:9090/clients' # why doesn't this return anything?
+      @clients_hash = JSON.parse(@client_response.body)
+      @client_list = @clients_hash['clients']
+      @client = @client_list.find { |x| x['project_id'] == @project_id.to_i }
+      #RETURN PROJECT
+      @project_response = RestClient.get 'http://localhost:9090/projects/' + @project_id
+      @project = JSON.parse(@project_response)
+      #RETURN ORGANIZATION
+      @organization_id = @project['organization_id']
+      @organization_response = RestClient.get 'http://localhost:9090/organizations/' + @organization_id.to_s
+      @organization = JSON.parse(@organization_response)
+
       output = {
-              client_id:  @ClientFound['id'],
-              client_lastname: @ClientFound['lastname'],
-              project_id: @ProjectFound['id'],
-              project_name: @ProjectFound['name'],
-              organization_id: @OrganizationFound['id'],
-              organization_name: @OrganizationFound['name']
+              client_id:  @client['id'],
+              client_lastname: @client['lastname'],
+              project_id: @project['id'],
+              project_name: @project['name'],
+              organization_id: @organization['id'],
+              organization_name: @organization['name']
               }
+
+        output
     end
   end
 end
