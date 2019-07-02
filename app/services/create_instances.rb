@@ -24,26 +24,33 @@ module Services
     def call_nodejs_api
       client = get_client
       project = get_project
-      organization_id = project['organization_id']
+      project_list = get_project_list
+      organization_id = project_list['organization_id']
       organization = get_organization(organization_id.to_s)
 
       {
         client: client,
         project: project,
-        organiaztion: organiaztion
+        organization: organization
       }
     end
 
-    def get_project
+    def get_project_list
       project_response = node_call('projects/' + @project_id)
       return nil unless project_response
 
       project = JSON.parse(project_response)
       return nil unless project
+      
+      project
 
+    end
+
+    def get_project
+      project_list = get_project_list
       {
-        project_id:  project['id'],
-        project_name: project['name']
+        project_id: project_list['id'],
+        project_name: project_list['name']
       }
     end
 
@@ -61,7 +68,7 @@ module Services
     end
 
     def get_client
-      client_response = node_call('clients')
+      client_response = node_call("clients")
       return nil unless client_response
 
       clients_hash = JSON.parse(client_response)
