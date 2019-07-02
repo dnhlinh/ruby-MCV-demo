@@ -22,29 +22,74 @@ module Services
     end
 
     def call_nodejs_api
-      # RETURN CLIENT 
-      @getClients = RestClient.get 'http://localhost:9090/clients' # why doesn't this return anything?
-      @clientsHash = JSON.parse(@getClients)
-      @clientList = @clientsHash['clients']
-      @ClientFound = @clientList.find { |x| x['project_id'] == @project_id}
-      
-      #RETURN PROJECT 
-      @getProject = RestClient.get 'http://localhost:9090/projects/' + @project_id
-      @ProjectFound = JSON.parse(@getProject)
-      
-      #RETURN ORGANIZATION 
-      @organization_id = @jsonProject['organization_id'] 
-      @getOrg = RestClient.get 'http://localhost:9090/organizations/' + @organization_id
-      @OrganizationFound = JSON.parse(@getOrg)
-      
-      output = {
-              client_id:  @ClientFound['id'],
-              client_lastname: @ClientFound['lastname'],
-              project_id: @ProjectFound['id'],
-              project_name: @ProjectFound['name'],
-              organization_id: @OrganizationFound['id'],
-              organization_name: @OrganizationFound['name']
-              }
+      client = get_client
+      project = get_project
+      project_list = get_project_list
+      organization_id = project_list['organization_id']
+      organization = get_organization(organization_id.to_s)
+
+      {
+        client: client,
+        project: project,
+        organization: organization
+      }
     end
+
+    def get_project_list
+      project_response = node_call('projects/' + @project_id)
+      return nil unless project_response
+
+      project = JSON.parse(project_response)
+      return nil unless project
+      
+      project
+
+    end
+
+    def get_project
+      project_list = get_project_list
+      {
+        project_id: project_list['id'],
+        project_name: project_list['name']
+      }
+    end
+
+    def get_organization(organization_id)
+      organization_response = node_call('organizations/' + organization_id)
+      return nil unless organization_response
+
+      organization = JSON.parse(organization_response)
+      return nil unless organization
+
+      {
+        organization_id:  organization['id'],
+        organization_name: organization['name']
+      }
+    end
+
+    def get_client
+      client_response = node_call("clients")
+      return nil unless client_response
+
+      clients_hash = JSON.parse(client_response)
+      client_list = clients_hash['clients']
+      return nil unless client_list
+
+      client = client_list.find { |x| x['project_id'] == @project_id.to_i }
+      return nil unless client
+
+      {
+        client_id:  client['id'],
+        client_lastname: client['lastname']
+      }
+    end
+
+
+    def node_call(url)
+      response = RestClient.get 'http://localhost:9090/' + url
+      return response.body if response.code == 200
+      nil
+    end
+
   end
 end
