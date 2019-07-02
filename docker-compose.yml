@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD:
+    ports:
+      - "5532:5432"
+
+# https://www.pgadmin.org/download/
+# SQL examples
+
+# SELECT * FROM ORDERS;
+
+# INSERT INTO ORDERS (id, name) VALUES (3, 'sdsdsd' );
+
+# UPDATE ORDERS SET name = 'corrected' WHERE id = 2;
+
+# INSERT INTO ORDERS (id, name) VALUES (3, 'to delete' );
+# DELETE FROM ORDERS WHERE id = 3;
+
+
+# SELECT * FROM ORDERS WHERE name like '%rr%';
